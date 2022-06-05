@@ -35,7 +35,7 @@ export default function Home() {
           <div className="gridElement">
             {data.map((image, i) => {
               return (
-                <div className="element">
+                <div className="element" key={i}>
                   <div className="thumbail">
                     <ImageElement src={image.src} id={i} />
                   </div>
@@ -49,7 +49,7 @@ export default function Home() {
         <div className="list-elements">
           {data.map((image, i) => {
             return (
-              <div className="listElement">
+              <div className="listElement" key={i}>
                 <ImageElement src={image.src} id={i} />
               </div>
             );
