@@ -1,3 +1,7 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
 html,
 body {
   padding: 0;
@@ -14,3 +18,61 @@ a {
 * {
   box-sizing: border-box;
 }
+
+
+.contentHeight{
+    height: calc(1vh * 100);
+    content-visibility: auto;
+}
+
+.cubicTransistion{ 
+    transition: all 0.5 cubic-bezier(0.075, 0.82, 0.165, 1)
+}
+
+.gridContainer{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: absolute;
+    width:2110px;
+    height: 1600px;
+    position: absolute;
+    top: calc(((1vh * 100) - 1600px) / 2);
+    left: calc((100vw - 2110px) / 2);
+    content-visibility: auto;
+}
+
+
+.gridElement {
+    display: grid;
+    grid-template-columns: repeat(5,420px);
+}
+
+ .element {
+     padding: 20px;
+     width: 420px;
+     height: 400px
+ }
+
+ .thumbail{
+     height: 100%;
+     width: 100%;
+     position: relative;
+ }
+
+
+ .list-elements{
+    overflow:auto hidden;
+    height: calc(1vh * 100);
+    display: grid;
+    grid-template-columns: repeat(20,1fr);
+    align-items: center;
+    padding: 0px 10vmin;
+ }
+
+ .listElement{
+     width: 70vmin;
+     height:70vmin;
+     margin:0px 5vw;
+ }
+ 
