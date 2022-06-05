@@ -1,6 +1,6 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { data } from "../data/images.js";
-import { motion, useAnimation } from "framer-motion";
+import { motion, useAnimation, useMotionValue } from "framer-motion";
 
 const defaultTransistion = {
   duration: 1.25,
@@ -18,19 +18,22 @@ const ImageElement = ({ src, id }) => {
   );
 };
 
-const gridUtils = [400, 600, 700, 800, 400];
+const gridUtils = [600, 400, 600, 800, 600];
 
 export default function Home() {
   const [gridVisible, setGridVisible] = useState(true);
-  const loaderControls = useAnimation();
+  const [canAnimate, setcanAnimate] = useState(false);
   const animation = useAnimation();
+  const gridRef = useRef(null);
+  const x = useMotionValue(0);
+  const y = useMotionValue(0);
 
   useEffect(() => {
     async function sequence() {
       await animation.set((index) => {
         return {
           y: gridUtils[index % 5],
-          scale: 1.1,
+          scale: 0.8,
         };
       });
 
@@ -43,12 +46,28 @@ export default function Home() {
 
       setTimeout(() => {
         setGridVisible(false);
+        setcanAnimate(true);
       }, 200);
     }
     setTimeout(() => {
       sequence();
     }, 0);
   }, []);
+
+  const handleParallax = (event) => {
+    if (gridRef.current && canAnimate) {
+      const { width, height } = gridRef.current.getBoundingClientRect();
+      const offsetX = event.pageX - width * 0.5;
+      const offsetY = event.pageY - height * 0.5;
+      const speed = 20 * -1;
+
+      const newTransformX = (offsetX * speed) / 100;
+      const newTransformY = (offsetY * speed) / 100;
+
+      x.set(newTransformX);
+      y.set(newTransformY);
+    }
+  };
 
   return (
     <div className="relative w-screen contentHeight bg-blue-600 overflow-hidden cubicTransistion">
@@ -61,8 +80,13 @@ export default function Home() {
         </button>
       </div>
       {gridVisible && (
-        <div className="gridContainer">
-          <div className="gridElement">
+        <div ref={gridRef} className="gridContainer">
+          <motion.div
+            onMouseMove={handleParallax}
+            style={{ x, y }}
+            transition={defaultTransistion}
+            className="gridElement"
+          >
             {data.map((image, i) => {
               return (
                 <motion.div
@@ -77,7 +101,7 @@ export default function Home() {
                 </motion.div>
               );
             })}
-          </div>
+          </motion.div>
         </div>
       )}
       {!gridVisible && (
