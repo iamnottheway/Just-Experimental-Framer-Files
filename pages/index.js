@@ -18,6 +18,49 @@ const ImageElement = ({ src, id }) => {
   );
 };
 
+const banner = {
+  animate: {
+    transition: {
+      delayChildren: 0.4,
+      staggerChildren: 0.1,
+    },
+  },
+};
+
+const letterAnimation = {
+  initial: { y: 400 },
+  animate: {
+    y: 0,
+    transition: {
+      ease: [0.6, 0.01, -0.05, 0.95],
+      duration: 1,
+    },
+  },
+};
+
+const AnimatedLetters = ({ title }) => {
+  return (
+    <motion.div
+      className="flex flex-row"
+      variants={banner}
+      initial="initial"
+      animate="animate"
+    >
+      {[...title].map((letter, i) => {
+        return (
+          <motion.p
+            key={`l${i}`}
+            className={`text-[100px] text-white`}
+            variants={letterAnimation}
+          >
+            {letter}
+          </motion.p>
+        );
+      })}
+    </motion.div>
+  );
+};
+
 const gridUtils = [600, 400, 600, 800, 600];
 
 export default function Home() {
@@ -70,7 +113,7 @@ export default function Home() {
   };
 
   return (
-    <div className="relative w-screen contentHeight bg-blue-600 overflow-hidden cubicTransistion">
+    <div className="relative w-screen contentHeight bg-[#292929] overflow-hidden cubicTransistion">
       <div className="fixed top-0 p-4 z-30">
         <button
           className="border border-black p-3"
@@ -79,6 +122,15 @@ export default function Home() {
           Switch
         </button>
       </div>
+      <motion.div
+        variants={banner}
+        animate="animate"
+        className="w-full absolute z-30 p-10 left-[50%] top-[50%] -translate-y-[50%] -translate-x-[50%] grid place-items-center"
+      >
+        <AnimatedLetters title="Photorealistic" />
+        <AnimatedLetters title="Cinematic" />
+        <AnimatedLetters title="Beautiful" />
+      </motion.div>
       {gridVisible && (
         <div ref={gridRef} className="gridContainer">
           <motion.div
