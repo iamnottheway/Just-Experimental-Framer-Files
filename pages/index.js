@@ -36,28 +36,33 @@ const letterAnimation = {
       duration: 1,
     },
   },
+  exit: {
+    y: -400,
+  },
 };
 
-const AnimatedLetters = ({ title }) => {
+const AnimatedLetters = ({ title, canAnimate }) => {
   return (
-    <motion.div
-      className="flex flex-row"
-      variants={banner}
-      initial="initial"
-      animate="animate"
-    >
-      {[...title].map((letter, i) => {
-        return (
-          <motion.p
-            key={`l${i}`}
-            className={`text-[100px] text-white`}
-            variants={letterAnimation}
-          >
-            {letter}
-          </motion.p>
-        );
-      })}
-    </motion.div>
+    <>
+      <motion.div
+        className="flex flex-row"
+        variants={banner}
+        initial="initial"
+        animate={"animate"}
+      >
+        {[...title].map((letter, i) => {
+          return (
+            <motion.p
+              key={`l${i}`}
+              className={`text-[100px] text-white font-thin`}
+              variants={letterAnimation}
+            >
+              {letter}
+            </motion.p>
+          );
+        })}
+      </motion.div>
+    </>
   );
 };
 
@@ -122,15 +127,19 @@ export default function Home() {
           Switch
         </button>
       </div>
-      <motion.div
-        variants={banner}
-        animate="animate"
-        className="w-full absolute z-30 p-10 left-[50%] top-[50%] -translate-y-[50%] -translate-x-[50%] grid place-items-center"
-      >
-        <AnimatedLetters title="Photorealistic" />
-        <AnimatedLetters title="Cinematic" />
-        <AnimatedLetters title="Beautiful" />
-      </motion.div>
+
+      {!canAnimate && (
+        <motion.div
+          variants={banner}
+          animate={"animate"}
+          className="w-full absolute z-30 p-10 left-[50%] top-[50%] -translate-y-[50%] -translate-x-[50%] grid place-items-center"
+        >
+          <AnimatedLetters canAnimate={canAnimate} title="Photorealistic" />
+          <AnimatedLetters canAnimate={canAnimate} title="Cinematic" />
+          <AnimatedLetters canAnimate={canAnimate} title="Beautiful" />
+        </motion.div>
+      )}
+
       {gridVisible && (
         <div ref={gridRef} className="gridContainer">
           <motion.div

@@ -37,7 +37,7 @@ a {
     width:2110px;
     height: 1600px;
     position: absolute;
-    top: calc(((1vh * 100) - 1600px) / 2);
+    top: calc(((1vh * 100) - 1600px) / 2); /* center this box */
     left: calc((100vw - 2110px) / 2);
     content-visibility: auto;
 }
